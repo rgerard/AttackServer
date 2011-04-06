@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Attack name:</b>
+  <%= @attack.attack_name %>
+</p>
+
+<p>
+  <b>Attack image:</b>
+  <%= @attack.attack_image %>
+</p>
+
+
+<%= link_to 'Edit', edit_attack_path(@attack) %> |
+<%= link_to 'Back', attacks_path %>

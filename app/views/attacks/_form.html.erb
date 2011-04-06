@@ -1,0 +1,25 @@
+<%= form_for(@attack) do |f| %>
+  <% if @attack.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@attack.errors.count, "error") %> prohibited this attack from being saved:</h2>
+
+      <ul>
+      <% @attack.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :attack_name %><br />
+    <%= f.text_field :attack_name %>
+  </div>
+  <div class="field">
+    <%= f.label :attack_image %><br />
+    <%= f.text_field :attack_image %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

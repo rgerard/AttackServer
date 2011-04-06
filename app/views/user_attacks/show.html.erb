@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Attacker:</b>
+  <%= @user_attack.attacker_id %>
+</p>
+
+<p>
+  <b>Victim:</b>
+  <%= @user_attack.victim_id %>
+</p>
+
+<p>
+  <b>Attack:</b>
+  <%= @user_attack.attack_id %>
+</p>
+
+<p>
+  <b>Message:</b>
+  <%= @user_attack.message %>
+</p>
+
+<p>
+  <b>Created at:</b>
+  <%= @user_attack.created_at %>
+</p>
+
+<p>
+  <b>Action taken:</b>
+  <%= @user_attack.action_taken %>
+</p>
+
+<p>
+  <b>Email sent:</b>
+  <%= @user_attack.email_sent %>
+</p>
+
+<p>
+  <b>Push sent:</b>
+  <%= @user_attack.push_sent %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_attack_path(@user_attack) %> |
+<%= link_to 'Back', user_attacks_path %>

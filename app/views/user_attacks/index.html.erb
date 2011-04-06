@@ -1,0 +1,37 @@
+<h1>Listing user_attacks</h1>
+
+<table>
+  <tr>
+    <th>Attacker</th>
+    <th>Victim</th>
+    <th>Attack</th>
+    <th>Message</th>
+    <th>Created at</th>
+    <th>Action taken</th>
+    <th>Email sent</th>
+    <th>Push sent</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @user_attacks.each do |user_attack| %>
+  <tr>
+    <td><%= user_attack.attacker_id %></td>
+    <td><%= user_attack.victim_id %></td>
+    <td><%= user_attack.attack_id %></td>
+    <td><%= user_attack.message %></td>
+    <td><%= user_attack.created_at %></td>
+    <td><%= user_attack.action_taken %></td>
+    <td><%= user_attack.email_sent %></td>
+    <td><%= user_attack.push_sent %></td>
+    <td><%= link_to 'Show', user_attack %></td>
+    <td><%= link_to 'Edit', edit_user_attack_path(user_attack) %></td>
+    <td><%= link_to 'Destroy', user_attack, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User attack', new_user_attack_path %>

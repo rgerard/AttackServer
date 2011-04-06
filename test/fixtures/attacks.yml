@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  attack_name: MyString
+  attack_image: MyString
+
+two:
+  attack_name: MyString
+  attack_image: MyString
