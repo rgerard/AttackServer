@@ -60,7 +60,7 @@ class UserAttacksController < ApplicationController
 	victim = User.find_by_email(params[:user_attack][:victim_email])
 	if !victim
 		victim = User.new
-		victim.name = "Unknown"
+		victim.name = params[:user_attack][:victim_name]
 		victim.email = params[:user_attack][:victim_email]
 		if !victim.save
 			# Not sure what to do here if the save fails
