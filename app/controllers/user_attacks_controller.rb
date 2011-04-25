@@ -69,6 +69,7 @@ class UserAttacksController < ApplicationController
 	
 	params[:user_attack][:victim_id] = victim.id
 	params[:user_attack].delete(:victim_email)
+	params[:user_attack].delete(:victim_name)
 	
 	#Find the attack by name.  If not found, do not create entry.
 	attack = Attack.find_by_attack_image(params[:user_attack][:attack_name])
