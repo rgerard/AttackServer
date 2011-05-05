@@ -1,6 +1,7 @@
 class UserAttacksController < ApplicationController
   # GET /user_attacks
   # GET /user_attacks.xml
+  
   def index
     @user_attacks = UserAttack.all
 
@@ -84,7 +85,8 @@ class UserAttacksController < ApplicationController
 
     respond_to do |format|
       if @user_attack.save
-		format.mobilesafari { render :text => "Saved!" }
+		#Send back the userattack ID so that a URL can be made from it on the phone
+		format.mobilesafari { render :text => @user_attack.id }
         format.html { redirect_to(@user_attack, :notice => 'User attack was successfully created.') }
         format.xml  { render :xml => @user_attack, :status => :created, :location => @user_attack }
       else
@@ -99,7 +101,10 @@ class UserAttacksController < ApplicationController
   # GET /user_attacks/1.xml
   def show
     @user_attack = UserAttack.find(params[:id])
-
+	@attacker = User.find_by_id(@user_attack[:attacker_id])
+	@victim = User.find_by_id(@user_attack[:victim_id])
+	@attack = Attack.find_by_id(@user_attack[:attack_id])
+	
     respond_to do |format|
 	  format.mobilesafari { render :text => "Trying to get user attacks by id" }
       format.html # show.html.erb
