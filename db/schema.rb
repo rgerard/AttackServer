@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110325054823) do
+ActiveRecord::Schema.define(:version => 20110526065234) do
 
   create_table "attacks", :force => true do |t|
     t.string   "attack_name"
@@ -33,10 +33,10 @@ ActiveRecord::Schema.define(:version => 20110325054823) do
 
   create_table "users", :force => true do |t|
     t.string   "name"
-    t.string   "email"
     t.boolean  "appUser"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "fbid"
   end
 
 end

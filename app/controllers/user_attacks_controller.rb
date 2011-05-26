@@ -12,12 +12,23 @@ class UserAttacksController < ApplicationController
     end
   end
 
-  # GET /user_attacks/lookup/:email&:lastid
-  # Lookup recent attacks to :email and send them back, as long as the id is greater than :lastid
+  # GET /user_attacks/lookup/:fbid&:lastid
+  # Lookup recent attacks to :fbid and send them back, as long as the id is greater than :lastid
   # The client sends up -1 for the lastid if it has nothing saved
   def lookup
-    @user = User.find_by_email(params[:email])
-	@user_attacks = UserAttack.where("id > ?", params[:lastid]).find_all_by_victim_id(@user.id)
+    user = User.find_by_fbid(params[:fbid])
+	if !user
+		user = User.new
+		user.name = "Unknown"
+		user.fbid = params[:fbid]
+		user.appUser = true
+		
+		if !user.save
+			# Not sure what to do here if the save fails
+		end
+	end
+	
+	@user_attacks = UserAttack.where("id > ?", params[:lastid]).find_all_by_victim_id(user.id)
 
 	attack_array = []
 	@user_attacks.each do |single_attack|
@@ -26,7 +37,7 @@ class UserAttacksController < ApplicationController
 		attack_type = Attack.find(single_attack.attack_id)
 		
 		attack_data['attack_id'] = single_attack.id
-		attack_data['attacker_email'] = attacker.email
+		attack_data['attacker_fbid'] = attacker.fbid
 		attack_data['attacker_name'] = attacker.name
 		attack_data['attack_image'] = attack_type.attack_image
 		attack_data['message'] = single_attack.message
@@ -43,33 +54,39 @@ class UserAttacksController < ApplicationController
 
   # POST /user_attacks/phone
   def createFromPhone
-	#Find the attacker by email.  If not found, create a new user with that email address.
-	attacker = User.find_by_email(params[:user_attack][:attacker_email])
+	#Find the attacker by FB ID.  If not found, create a new user with that FB ID.
+	attacker = User.find_by_fbid(params[:user_attack][:attacker_fbid])
 	if !attacker
 		attacker = User.new
 		attacker.name = "Unknown"
-		attacker.email = params[:user_attack][:attacker_email]
+		attacker.fbid = params[:user_attack][:attacker_fbid]
 		if !attacker.save
 			# Not sure what to do here if the save fails
 		end
 	end
 	
 	params[:user_attack][:attacker_id] = attacker.id
-	params[:user_attack].delete(:attacker_email)
+	params[:user_attack].delete(:attacker_fbid)
 	  
-	#Find the victim by email.  If not found, create a new user with that email address.
-	victim = User.find_by_email(params[:user_attack][:victim_email])
+	#Find the victim by FB ID.  If not found, create a new user with that FB ID.
+	victim = User.find_by_fbid(params[:user_attack][:victim_fbid])
 	if !victim
 		victim = User.new
 		victim.name = params[:user_attack][:victim_name]
-		victim.email = params[:user_attack][:victim_email]
+		victim.fbid = params[:user_attack][:victim_fbid]
 		if !victim.save
 			# Not sure what to do here if the save fails
 		end
 	end
 	
+	#Correct the name, if it's wrong
+	if victim.name = "Unknown"
+		victim.name = params[:user_attack][:victim_name]
+		victim.save
+	end
+	
 	params[:user_attack][:victim_id] = victim.id
-	params[:user_attack].delete(:victim_email)
+	params[:user_attack].delete(:victim_fbid)
 	params[:user_attack].delete(:victim_name)
 	
 	#Find the attack by name.  If not found, do not create entry.

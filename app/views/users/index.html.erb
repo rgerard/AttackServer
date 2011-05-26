@@ -2,8 +2,9 @@
 
 <table>
   <tr>
+	<th>ID</th>
     <th>Name</th>
-    <th>Email</th>
+    <th>FBID</th>
     <th>Appuser</th>
     <th>Created at</th>
     <th></th>
@@ -13,8 +14,9 @@
 
 <% @users.each do |user| %>
   <tr>
+	<td><%= user.id %></td>
     <td><%= user.name %></td>
-    <td><%= user.email %></td>
+    <td><%= user.fbid %></td>
     <td><%= user.appUser %></td>
     <td><%= user.created_at %></td>
     <td><%= link_to 'Show', user %></td>
