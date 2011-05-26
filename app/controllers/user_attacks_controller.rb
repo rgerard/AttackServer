@@ -28,6 +28,12 @@ class UserAttacksController < ApplicationController
 		end
 	end
 	
+	#Record the fact that this is an appuser, if not previously known
+	if !user.appUser
+		user.appUser = true
+		user.save
+	end
+	
 	@user_attacks = UserAttack.where("id > ?", params[:lastid]).find_all_by_victim_id(user.id)
 
 	attack_array = []
