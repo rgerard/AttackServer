@@ -7,8 +7,16 @@ class ApplicationController < ActionController::Base
   before_filter :adjust_format_for_mobilesafari  
 
   def ensure_domain
-	# HTTP 301 is a "permanent" redirect
-	redirect_to "http://www.antambush.com", :status => 301
+	if request.fullpath != '/' && request.fullpath != '/users' && request.fullpath != '/user_attacks' && request.fullpath != '/attacks'
+	
+		if request.fullpath == '/admin'
+			# HTTP 301 is a "permanent" redirect
+			redirect_to "http://www.antambush.com/admin"
+		else
+			# HTTP 301 is a "permanent" redirect
+			redirect_to "http://www.antambush.com", :status => 301
+		end
+    end
   end
   
 

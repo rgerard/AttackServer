@@ -1,4 +1,6 @@
 AttackServer::Application.routes.draw do
+  get "admin_console/index"
+
   resources :user_attacks do
     collection do
       get "lookup" => "user_attacks#lookup"
