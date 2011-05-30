@@ -3,8 +3,14 @@ class ApplicationController < ActionController::Base
   
   protect_from_forgery :unless => :iphone_request?
   
+  before_filter :ensure_domain
   before_filter :adjust_format_for_mobilesafari  
 
+  def ensure_domain
+	# HTTP 301 is a "permanent" redirect
+	redirect_to "http://www.antambush.com", :status => 301
+  end
+  
 
   private
   
