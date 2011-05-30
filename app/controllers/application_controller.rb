@@ -3,11 +3,15 @@ class ApplicationController < ActionController::Base
   
   protect_from_forgery :unless => :iphone_request?
   
-  before_filter :ensure_domain
+  #before_filter :ensure_domain
   before_filter :adjust_format_for_mobilesafari  
 
   def ensure_domain
-	if request.fullpath != '/' && request.fullpath != '/users' && request.fullpath != '/user_attacks' && request.fullpath != '/attacks'
+	if request.fullpath != '/' && 
+		request.fullpath != '/users' && 
+		request.fullpath != '/user_attacks' && 
+		request.fullpath.split("?")[0] != '/user_attacks/lookup' && 
+		request.fullpath != '/attacks'
 	
 		if request.fullpath == '/admin'
 			# HTTP 301 is a "permanent" redirect
