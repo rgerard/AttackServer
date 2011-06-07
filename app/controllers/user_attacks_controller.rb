@@ -106,6 +106,11 @@ class UserAttacksController < ApplicationController
 	
     @user_attack = UserAttack.new(params[:user_attack])
 
+	#Send the notification
+	if params[:device_token] && params[:device_token] != ''
+		post_notification(params[:device_token])
+	end
+	
     respond_to do |format|
       if @user_attack.save
 		#Send back the userattack ID so that a URL can be made from it on the phone
@@ -196,4 +201,47 @@ class UserAttacksController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  
+  def post_notification(device_token)
+  
+    require 'net/http'
+    require 'net/https'
+    require 'uri'
+	require 'json'
+	
+	uri = URI.parse("https://go.urbanairship.com/api/push/")
+	http = Net::HTTP.new(uri.host, 443)
+    http.use_ssl = true
+	
+    # build the JSON params string
+	post_alert = {
+		:alert => "You were attacked!"
+	}
+
+	post_params = { 
+		:device_tokens => params[:device_token],
+		:aps => post_alert
+	}
+	
+	json_params = JSON.generate(post_params)
+
+	# Create the POST request
+	request = Net::HTTP::Post.new(uri.request_uri)
+	request.body = json_params
+	request.set_content_type("application/json")
+	request.basic_auth 'Xu-pbMovTHq1KYjuW0KxMw', 's6vuyjlTQMeXDGG4jzxRbw'
+	
+	# Send the request
+	response = http.request(request)
+
+	case response
+    when Net::HTTPSuccess, Net::HTTPRedirection
+		# OK
+		logger.info "Success!"
+    else
+		logger.info "Failure!"
+    end
+
+  end  
 end
