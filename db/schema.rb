@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110526065234) do
+ActiveRecord::Schema.define(:version => 20110608030544) do
 
   create_table "attacks", :force => true do |t|
     t.string   "attack_name"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(:version => 20110526065234) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "fbid"
+    t.string   "device_token"
   end
 
 end

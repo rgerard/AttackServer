@@ -21,6 +21,7 @@ class UserAttacksController < ApplicationController
 		user = User.new
 		user.name = "Unknown"
 		user.fbid = params[:fbid]
+		user.device_token = params[:device_token]
 		user.appUser = true
 		
 		if !user.save
@@ -33,6 +34,12 @@ class UserAttacksController < ApplicationController
 		user.appUser = true
 		user.save
 	end
+	
+	#Record the device token, if not previously known, or if it's changed since last time
+	if !user.device_token || user.device_token != params[:device_token]
+		user.device_token = params[:device_token]
+		user.save
+	end	
 	
 	@user_attacks = UserAttack.where("id > ?", params[:lastid]).find_all_by_victim_id(user.id)
 
@@ -106,8 +113,10 @@ class UserAttacksController < ApplicationController
 	
     @user_attack = UserAttack.new(params[:user_attack])
 
-	#Send the notification
-	if params[:device_token] && params[:device_token] != ''
+	# Send the notification
+	# A token of -1 means that the user didn't want us sending notifications
+	# A token of -2 means that the token was nil for some reason on the phone
+	if params[:device_token] && params[:device_token] != '' && params[:device_token] != '-1' && params[:device_token] != '-2'
 		post_notification(params[:device_token])
 	end
 	
