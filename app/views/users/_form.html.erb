@@ -24,6 +24,10 @@
     <%= f.check_box :appUser %>
   </div>
   <div class="field">
+    <%= f.label :device_token %><br />
+    <%= f.text_field :device_token %>
+  </div>
+  <div class="field">
     <%= f.label :created_at %><br />
     <%= f.datetime_select :created_at %>
   </div>
