@@ -110,6 +110,7 @@ class UserAttacksController < ApplicationController
 	params[:user_attack].delete(:victim_name)
 	
 	#Find the attack by name.  If not found, do not create entry.
+	attackName = params[:user_attack][:attack_name]
 	attack = Attack.find_by_attack_image(params[:user_attack][:attack_name])
 	if !attack
 		# Not sure what to do here if the lookup fails
@@ -124,7 +125,7 @@ class UserAttacksController < ApplicationController
 	# A token of -1 means that the user didn't want us sending notifications
 	# A token of -2 means that the token was nil for some reason on the phone
 	if victim.device_token && victim.device_token != '' && victim.device_token != '-1' && victim.device_token != '-2'
-		post_notification(params[:device_token])
+		post_notification(params[:device_token], attacker.name, attackName)
 	end
 	
     respond_to do |format|
@@ -219,7 +220,7 @@ class UserAttacksController < ApplicationController
   end
   
   
-  def post_notification(device_token)
+  def post_notification(device_token, attackerName, attackName)
   
     require 'net/http'
     require 'net/https'
@@ -232,7 +233,7 @@ class UserAttacksController < ApplicationController
 	
     # build the JSON params string
 	post_alert = {
-		:alert => "You were attacked!"
+		:alert => "You were attacked by " + attackerName + " with " + attackName + "!" 
 	}
 
 	post_params = { 
