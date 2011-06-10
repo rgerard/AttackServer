@@ -12,7 +12,7 @@ class UserAttacksController < ApplicationController
     end
   end
 
-  # GET /user_attacks/lookup/:fbid&:lastid
+  # GET /user_attacks/lookup/:fbid&:lastid&:device_token
   # Lookup recent attacks to :fbid and send them back, as long as the id is greater than :lastid
   # The client sends up -1 for the lastid if it has nothing saved
   def lookup
@@ -73,10 +73,17 @@ class UserAttacksController < ApplicationController
 		attacker = User.new
 		attacker.name = "Unknown"
 		attacker.fbid = params[:user_attack][:attacker_fbid]
+		attacker.device_token = params[:device_token]
 		if !attacker.save
 			# Not sure what to do here if the save fails
 		end
 	end
+	
+	#Record the device token, if not previously known, or if it's changed since last time
+	if !attacker.device_token || attacker.device_token != params[:device_token]
+		attacker.device_token = params[:device_token]
+		attacker.save
+	end	
 	
 	params[:user_attack][:attacker_id] = attacker.id
 	params[:user_attack].delete(:attacker_fbid)
@@ -116,7 +123,7 @@ class UserAttacksController < ApplicationController
 	# Send the notification
 	# A token of -1 means that the user didn't want us sending notifications
 	# A token of -2 means that the token was nil for some reason on the phone
-	if params[:device_token] && params[:device_token] != '' && params[:device_token] != '-1' && params[:device_token] != '-2'
+	if victim.device_token && victim.device_token != '' && victim.device_token != '-1' && victim.device_token != '-2'
 		post_notification(params[:device_token])
 	end
 	
