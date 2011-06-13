@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110608030544) do
+ActiveRecord::Schema.define(:version => 20110613060441) do
 
   create_table "attacks", :force => true do |t|
     t.string   "attack_name"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20110608030544) do
     t.boolean  "email_sent"
     t.boolean  "push_sent"
     t.datetime "updated_at"
+    t.string   "id_hash"
   end
 
   create_table "users", :force => true do |t|

@@ -3,6 +3,7 @@
 <table>
   <tr>
 	<th>ID</th>
+    <th>Hash ID</th>
     <th>Attacker</th>
     <th>Victim</th>
     <th>Attack</th>
@@ -19,6 +20,7 @@
 <% @user_attacks.each do |user_attack| %>
   <tr>
 	<td><%= user_attack.id %></td>
+    <td><%= user_attack.id_hash %></td>
     <td><%= user_attack.attacker_id %></td>
     <td><%= user_attack.victim_id %></td>
     <td><%= user_attack.attack_id %></td>

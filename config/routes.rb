@@ -4,8 +4,9 @@ AttackServer::Application.routes.draw do
   resources :user_attacks do
     collection do
       get "lookup" => "user_attacks#lookup"
-	  post "createFromPhone" => "user_attacks#createFromPhone" #Called by the iphone when a user attack is created
-	end
+      get "get" => "user_attacks#show"
+	    post "createFromPhone" => "user_attacks#createFromPhone" #Called by the iphone when a user attack is created
+	  end
   end
 
   resources :attacks
