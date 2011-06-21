@@ -43,7 +43,7 @@ class UserAttacksController < ApplicationController
 
     @user_attacks = UserAttack.where("id > ?", params[:lastid]).find_all_by_victim_id(@user.id)
 
-    attack_array = []
+    @attack_array = []
     @user_attacks.each do |single_attack|
       attack_data = {}
       attacker = User.find(single_attack.attacker_id)
@@ -55,7 +55,7 @@ class UserAttacksController < ApplicationController
       attack_data['attack_image'] = attack_type.attack_image
       attack_data['message'] = single_attack.message
 
-      attack_array.push(attack_data)
+      @attack_array.push(attack_data)
     end
 
     respond_to do |format|

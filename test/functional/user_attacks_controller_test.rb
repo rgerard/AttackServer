@@ -127,8 +127,13 @@ class UserAttacksControllerTest < ActionController::TestCase
     get :lookup, :fbid => 54321, :lastid => -1, :device_token => -1
 
     assert_not_nil assigns(:user)
+    assert_not_nil assigns(:attack_array)
+    assert_equal(assigns(:attack_array).count, 1, "Array count is not 1")
     assert_equal(assigns(:user).appUser, true, "appUser is wrong")
     assert_response :success
+
+    assert_equal(assigns(:attack_array)[0]['attack_id'], 2, "UserAttack ID is not 2")
+    assert_equal(assigns(:attack_array)[0]['message'], 'What what', "Message is not oorrect")
   end
 
 
