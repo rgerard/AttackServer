@@ -16,32 +16,32 @@ class UserAttacksController < ApplicationController
   # Lookup recent attacks to :fbid and send them back, as long as the id is greater than :lastid
   # The client sends up -1 for the lastid if it has nothing saved
   def lookup
-    user = User.find_by_fbid(params[:fbid])
-    if !user
-      user = User.new
-      user.name = "Unknown"
-      user.fbid = params[:fbid]
-      user.device_token = params[:device_token]
-      user.appUser = true
+    @user = User.find_by_fbid(params[:fbid])
+    if !@user
+      @user = User.new
+      @user.name = "Unknown"
+      @user.fbid = params[:fbid]
+      @user.device_token = params[:device_token]
+      @user.appUser = true
 
-      if !user.save
+      if !@user.save
         # Not sure what to do here if the save fails
       end
 	  end
 	
     #Record the fact that this is an appuser, if not previously known
-    if !user.appUser
-      user.appUser = true
-      user.save
+    if !@user.appUser
+      @user.appUser = true
+      @user.save
     end
 
     #Record the device token, if not previously known, or if it's changed since last time
-    if !user.device_token || user.device_token != params[:device_token]
-      user.device_token = params[:device_token]
-      user.save
+    if !@user.device_token || @user.device_token != params[:device_token]
+      @user.device_token = params[:device_token]
+      @user.save
     end
 
-    @user_attacks = UserAttack.where("id > ?", params[:lastid]).find_all_by_victim_id(user.id)
+    @user_attacks = UserAttack.where("id > ?", params[:lastid]).find_all_by_victim_id(@user.id)
 
     attack_array = []
     @user_attacks.each do |single_attack|
@@ -59,7 +59,7 @@ class UserAttacksController < ApplicationController
     end
 
     respond_to do |format|
-	  format.mobilesafari { render :json => attack_array }
+	    format.mobilesafari { render :json => attack_array }
       format.html # show.html.erb
       format.xml  { render :xml => @user_attack }
     end
@@ -68,44 +68,44 @@ class UserAttacksController < ApplicationController
   # POST /user_attacks/createFromPhone
   def createFromPhone
     #Find the attacker by FB ID.  If not found, create a new user with that FB ID.
-    attacker = User.find_by_fbid(params[:user_attack][:attacker_fbid])
-    if !attacker
-      attacker = User.new
-      attacker.name = "Unknown"
-      attacker.fbid = params[:user_attack][:attacker_fbid]
-      attacker.device_token = params[:device_token]
-      if !attacker.save
+    @attacker = User.find_by_fbid(params[:user_attack][:attacker_fbid])
+    if !@attacker
+      @attacker = User.new
+      @attacker.name = "Unknown"
+      @attacker.fbid = params[:user_attack][:attacker_fbid]
+      @attacker.device_token = params[:device_token]
+      if !@attacker.save
         # Not sure what to do here if the save fails
       end
     end
 
     #Record the device token, if not previously known, or if it's changed since last time
-    if !attacker.device_token || attacker.device_token != params[:device_token]
-      attacker.device_token = params[:device_token]
-      attacker.save
+    if !@attacker.device_token || @attacker.device_token != params[:device_token]
+      @attacker.device_token = params[:device_token]
+      @attacker.save
     end
 
-    params[:user_attack][:attacker_id] = attacker.id
+    params[:user_attack][:attacker_id] = @attacker.id
     params[:user_attack].delete(:attacker_fbid)
 
     #Find the victim by FB ID.  If not found, create a new user with that FB ID.
-    victim = User.find_by_fbid(params[:user_attack][:victim_fbid])
-    if !victim
-      victim = User.new
-      victim.name = params[:user_attack][:victim_name]
-      victim.fbid = params[:user_attack][:victim_fbid]
-      if !victim.save
+    @victim = User.find_by_fbid(params[:user_attack][:victim_fbid])
+    if !@victim
+      @victim = User.new
+      @victim.name = params[:user_attack][:victim_name]
+      @victim.fbid = params[:user_attack][:victim_fbid]
+      if !@victim.save
         # Not sure what to do here if the save fails
       end
     end
 
     #Correct the name, if it's wrong
-    if victim.name = "Unknown"
-      victim.name = params[:user_attack][:victim_name]
-      victim.save
+    if @victim.name == "Unknown"
+      @victim.name = params[:user_attack][:victim_name]
+      @victim.save
     end
 	
-    params[:user_attack][:victim_id] = victim.id
+    params[:user_attack][:victim_id] = @victim.id
     params[:user_attack].delete(:victim_fbid)
     params[:user_attack].delete(:victim_name)
 
@@ -124,8 +124,8 @@ class UserAttacksController < ApplicationController
     # Send the notification
     # A token of -1 means that the user didn't want us sending notifications
     # A token of -2 means that the token was nil for some reason on the phone
-    if victim.device_token && victim.device_token != '' && victim.device_token != '-1' && victim.device_token != '-2'
-      post_notification(params[:device_token], attacker.name, attackName)
+    if @victim.device_token && @victim.device_token != '' && @victim.device_token != '-1' && @victim.device_token != '-2'
+      post_notification(params[:device_token], @attacker.name, attackName)
       @user_attack.push_sent=true;
     end
 
@@ -162,7 +162,7 @@ class UserAttacksController < ApplicationController
     @attack = Attack.find_by_id(@user_attack[:attack_id])
 	
     respond_to do |format|
-	  format.mobilesafari { render :text => "Trying to get user attacks by id" }
+	    format.mobilesafari { render :text => "Trying to get user attacks by id" }
       format.html # show.html.erb
       format.xml  { render :xml => @user_attack }
     end

@@ -1,13 +1,33 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
-  email: MyString
+  id: 1
+  name: Maryam Ghofraniha
   appUser: false
   created_at: 2011-03-24 22:12:03
+  fbid: 54321
+  device_token: 123456789
 
 two:
-  name: MyString
-  email: MyString
+  id: 2
+  name: Jean-Marc Lietard
   appUser: false
   created_at: 2011-03-24 22:12:03
+  fbid: 98765
+  device_token: 987654321
+
+three:
+  id: 3
+  name: Zahra Ghofraniha
+  appUser: false
+  created_at: 2011-03-24 22:12:03
+  fbid: 24680
+  # Took out device token for this user on purpose
+
+four:
+  id: 4
+  name: Unknown
+  appUser: false
+  created_at: 2011-03-24 22:12:03
+  fbid: 18219
+  device_token: 135792468

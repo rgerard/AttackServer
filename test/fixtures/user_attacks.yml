@@ -2,20 +2,28 @@
 
 one:
   attacker_id: 1
-  victim_id: 1
-  attack: 
-  message: MyString
+  victim_id: 2
+  attack_id: 1
+  message: Got you
   created_at: 2011-03-24 22:48:23
   action_taken: false
   email_sent: false
   push_sent: false
+  id_hash: asdfghjkl
 
 two:
-  attacker_id: 1
+  attacker_id: 2
   victim_id: 1
-  attack: 
-  message: MyString
+  attack_id: 1
+  message: What what
   created_at: 2011-03-24 22:48:23
   action_taken: false
   email_sent: false
   push_sent: false
+  id_hash: qwertyuiop
+
+#from_device:
+#  attacker_fbid: 12345
+#  victim_fbid: 98765
+#  victim_name: Zahra
+#  attack_name: attackone.jpg

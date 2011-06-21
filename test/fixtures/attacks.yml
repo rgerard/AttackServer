@@ -1,9 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  attack_name: MyString
-  attack_image: MyString
+  id: 1
+  attack_name: AttackOne
+  attack_image: attackone.jpg
 
 two:
-  attack_name: MyString
-  attack_image: MyString
+  id: 2
+  attack_name: AttackTwo
+  attack_image: attacktwo.jpg
