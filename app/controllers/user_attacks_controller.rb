@@ -248,7 +248,7 @@ class UserAttacksController < ApplicationController
 	  }
 
 	  post_params = {
-		  :device_tokens => params[:device_token],
+		  :device_tokens => device_token,
 		  :aps => post_alert
 	  }
 	
