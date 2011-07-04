@@ -125,7 +125,7 @@ class UserAttacksController < ApplicationController
     # A token of -1 means that the user didn't want us sending notifications
     # A token of -2 means that the token was nil for some reason on the phone
     if @victim.device_token && @victim.device_token != '' && @victim.device_token != '-1' && @victim.device_token != '-2'
-      post_notification(params[:device_token], @attacker.name, attackName)
+      post_notification(@victim.device_token, @attacker.name, attackName)
       @user_attack.push_sent=true;
     end
 
