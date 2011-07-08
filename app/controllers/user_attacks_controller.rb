@@ -71,7 +71,7 @@ class UserAttacksController < ApplicationController
     @attacker = User.find_by_fbid(params[:user_attack][:attacker_fbid])
     if !@attacker
       @attacker = User.new
-      @attacker.name = "Unknown"
+      @attacker.name = params[:user_attack][:attacker_name]
       @attacker.fbid = params[:user_attack][:attacker_fbid]
       @attacker.device_token = params[:device_token]
       if !@attacker.save
@@ -85,8 +85,15 @@ class UserAttacksController < ApplicationController
       @attacker.save
     end
 
+    #Correct the name, if it's wrong
+    if @attacker.name == "Unknown"
+      @attacker.name = params[:user_attack][:attacker_name]
+      @attacker.save
+    end
+
     params[:user_attack][:attacker_id] = @attacker.id
     params[:user_attack].delete(:attacker_fbid)
+    params[:user_attack].delete(:attacker_name)
 
     #Find the victim by FB ID.  If not found, create a new user with that FB ID.
     @victim = User.find_by_fbid(params[:user_attack][:victim_fbid])
