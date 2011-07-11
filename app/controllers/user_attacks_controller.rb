@@ -36,7 +36,7 @@ class UserAttacksController < ApplicationController
     end
 
     #Record the device token, if not previously known, or if it's changed since last time
-    if !@user.device_token || @user.device_token != params[:device_token]
+    if !@user.device_token || (@user.device_token != params[:device_token] && @user.device_token != -1)
       @user.device_token = params[:device_token]
       @user.save
     end
@@ -59,7 +59,7 @@ class UserAttacksController < ApplicationController
     end
 
     respond_to do |format|
-	    format.mobilesafari { render :json => attack_array }
+	    format.mobilesafari { render :json => @attack_array }
       format.html # show.html.erb
       format.xml  { render :xml => @user_attack }
     end
