@@ -6,7 +6,7 @@ class UserAttacksController < ApplicationController
     @user_attacks = UserAttack.all
 
     respond_to do |format|
-	  format.mobilesafari { render :text => "Trying to get user attacks" }
+	    format.mobilesafari { render :text => "Trying to get user attacks" }
       format.html # index.html.erb
       format.xml  { render :xml => @user_attacks }
     end
