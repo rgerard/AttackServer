@@ -5,6 +5,32 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="description" content="" />
 
+<style type="text/css">
+body
+{
+background-color:#ffffff;
+}
+h1
+{
+color:orange;
+text-align:center;
+}
+p.msg
+{
+    font-family:"Arial";
+    font-size:20px;
+    text-align:center;
+    height:25px;
+}
+div.msg
+{
+    font-family:"Arial";
+    font-size:20px;
+    text-align:center;
+    height:25px;
+}
+</style>
+
     <script type="text/javascript">
 
         var _gaq = _gaq || [];
@@ -22,15 +48,30 @@
 </head>
 <body>
 
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b><%= @attacker.name %></b> just attacked you with <%= @attack.attack_name %>! <%= @attacker.name %> also left you a message: "<%= @user_attack.message %>"
-</p>
+<div>
+  <%= image_tag "logo.png", :align => "middle", :alt => "AntAmbush - Attack your friends" %>
+  <p class="msg"><b><a style="color: #ecaa4f" href="http://www.facebook.com/profile.php?id=<%= @attacker.fbid %>"><%= @attacker.name %></a></b> just attacked you with the <%= @attack.attack_name %>!</p>
+</div>
 
 <br />
-<p>
+<hr>
+
+<br />
+<%
+  if @user_attack.message.length > 0
+%>
+  <p class="msg">"<%= @user_attack.message %>"</p>
+<%
+  end
+%>
+
+<br />
+<br />
+<p class="msg">
   <b><%= @attack.attack_name %></b>
+</p>
+
+<p class="msg">
   <br/>
   <%= image_tag @attack.attack_image, :alt => @attack.attack_name %>
 </p>
