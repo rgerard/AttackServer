@@ -5,6 +5,7 @@ AttackServer::Application.routes.draw do
     collection do
       get "lookup" => "user_attacks#lookup"
       get "get" => "user_attacks#show"
+      get "delete" => "user_attacks#deleteFromUser"
 	    post "createFromPhone" => "user_attacks#createFromPhone" #Called by the iphone when a user attack is created
 	  end
   end

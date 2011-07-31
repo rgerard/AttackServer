@@ -12,6 +12,19 @@ class UserAttacksController < ApplicationController
     end
   end
 
+  # Delete all attacks to and from a user
+  def deleteFromUser
+
+    @user = User.find_by_id(params[:user])
+
+    if !@user
+      raise "Couldn't find user with that ID'"
+    end
+
+    UserAttack.delete_all(:attacker_id => @user.id)
+    UserAttack.delete_all(:victim_id => @user.id)
+  end
+
   # GET /user_attacks/lookup/:fbid&:lastid&:device_token
   # Lookup recent attacks to :fbid and send them back, as long as the id is greater than :lastid
   # The client sends up -1 for the lastid if it has nothing saved
@@ -26,6 +39,7 @@ class UserAttacksController < ApplicationController
 
       if !@user.save
         # Not sure what to do here if the save fails
+        raise "User save failed!'"
       end
 	  end
 	
@@ -76,6 +90,7 @@ class UserAttacksController < ApplicationController
       @attacker.device_token = params[:device_token]
       if !@attacker.save
         # Not sure what to do here if the save fails
+        raise "User save failed!'"
       end
     end
 
@@ -103,6 +118,7 @@ class UserAttacksController < ApplicationController
       @victim.fbid = params[:user_attack][:victim_fbid]
       if !@victim.save
         # Not sure what to do here if the save fails
+        raise "User save failed!'"
       end
     end
 
@@ -121,6 +137,7 @@ class UserAttacksController < ApplicationController
     attack = Attack.find_by_attack_image(params[:user_attack][:attack_name])
     if !attack
       # Not sure what to do here if the lookup fails
+      raise "Could not find attack!'"
     end
 
     params[:user_attack][:attack_id] = attack.id
