@@ -100,6 +100,12 @@ class UserAttacksController < ApplicationController
       @attacker.save
     end
 
+    #Record the fact that this is an appuser, if not previously known
+    if !@attacker.appUser
+      @attacker.appUser = true
+      @attacker.save
+    end
+
     #Correct the name, if it's wrong
     if @attacker.name == "Unknown"
       @attacker.name = params[:user_attack][:attacker_name]
