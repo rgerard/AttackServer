@@ -3,7 +3,7 @@ class UserAttacksController < ApplicationController
   # GET /user_attacks.xml
   
   def index
-    @user_attacks = UserAttack.all
+    @user_attacks = UserAttack.find(:all, :order => "id")
 
     respond_to do |format|
 	    format.mobilesafari { render :text => "Trying to get user attacks" }

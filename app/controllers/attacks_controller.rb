@@ -2,7 +2,7 @@ class AttacksController < ApplicationController
   # GET /attacks
   # GET /attacks.xml
   def index
-    @attacks = Attack.all
+    @attacks = Attack.find(:all, :order => "id")
 
     respond_to do |format|
       format.html # index.html.erb
